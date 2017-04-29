@@ -1,8 +1,16 @@
-infile = open('testformat.txt', 'r')
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import unicodedata, re
+import sys
+
+infile = open(str(sys.argv[1]), 'r')
 
 for line in infile:
-	newline = ''.join([i for i in line if not i=='"'])[:-1]
-	print newline
-	print ''.join([i for i in newline if not i=='\t'])[:-1]
+	new_line = ''.join([i for i in line if not i=='"'])[:-1]
+	new_line = new_line.translate(None, '!@#$[]')
+	new_line = new_line.replace('/datasets/download/gutenberg','')
+	new_line = re.sub(r'(.txt)', r'\1,', new_line)
+	new_line = ',' + new_line
+	print new_line
 
 infile.close()
